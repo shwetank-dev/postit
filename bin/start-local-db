@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.dev.yml}"
+SERVICE="${SERVICE:-db}"
+
+DB_USER="${DB_USER:-postgres}"
+DB_PASS="${DB_PASS:-postgres}"
+DB_NAME="${DB_NAME:-postit_development}"
+
+# Start the db service
+docker compose -f "$COMPOSE_FILE" up -d "$SERVICE"
+
+# Wait until Postgres is ready inside the container
+echo "Waiting for Postgres to be ready..."
+for i in {1..60}; do
+  if docker compose -f "$COMPOSE_FILE" exec -T "$SERVICE" pg_isready -U "$DB_USER" >/dev/null 2>&1; then
+    echo "Postgres is ready."
+    break
+  fi
+  sleep 1
+done
+
+# Open psql inside the container (no host psql needed)
+exec docker compose -f "$COMPOSE_FILE" exec "$SERVICE" psql -U "$DB_USER" -d "$DB_NAME"
