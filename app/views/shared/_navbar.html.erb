@@ -1,0 +1,24 @@
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <div class="nav gap-3 align-items-center">
+      <%= link_to "Postit", root_path, class: "navbar-brand fw-bolder" %>
+      <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          Categories
+        </button>
+        <ul class="dropdown-menu">
+          <% Category.all.each do |category| %>
+            <li>
+              <%= link_to category.name, category_path(category), class: "dropdown-item" %>
+            </li>
+          <% end %>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <%= link_to "Add Category", new_category_path, class: "dropdown-item" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,5 @@
+<div class="d-flex flex-wrap gap-2 mb-3 <%= 'mt-2' if categories.any? %>">
+  <% categories.each do |category| %>
+    <%= link_to category.name, category_path(category), class: "badge bg-secondary text-decoration-none text-light" %>
+  <% end %>
+</div>

@@ -1,0 +1,65 @@
+<article class="container py-5">
+  <!-- Categories + Title -->
+  <header class="mb-3">
+    <div class="mb-2">
+      <%= render "shared/category_list", categories: @post.categories %>
+    </div>
+    <%= render "shared/page_title", title: @post.title %>
+    <p class="text-muted small mb-0">
+     <%= link_to(@post.title, fix_url(@post.url)) %> • Posted by <%= @post.creator.username %> • <%= display_datetime(@post.created_at) %>
+    </p>
+  </header>
+  <!-- Actions -->
+  <div class="mb-4 d-flex gap-2">
+    <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline-primary btn-sm" %>
+    <%= link_to "Back to Posts", posts_path, class: "btn btn-link btn-sm" %>
+  </div>
+  <!-- Content -->
+  <section class="card border-0 shadow-sm">
+    <div class="card-body">
+      <h6 class="text-uppercase text-muted mb-2">Description</h6>
+      <p class="mb-0 text-secondary"><%= @post.description %></p>
+    </div>
+  </section>
+
+  <!-- Add Comment Form -->
+  <section class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+      <h6 class="text-uppercase text-muted mb-3">Add a Comment</h6>
+
+      <%= form_with(model: [@post, @comment], class: "needs-validation", local: true) do |f| %>
+        <%= render "shared/form_error", form: f %>
+
+        <div class="mb-3">
+          <%= f.label :body, "Leave a Comment", class: "form-label" %>
+          <%= f.text_area :body, rows: 4, class: "form-control", placeholder: "Write your comment here..." %>
+        </div>
+
+        <div class="text-end">
+          <%= f.submit "Create Comment", class: "btn btn-primary px-4" %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
+  <!-- Comments List -->
+  <section class="mt-4">
+    <h6 class="text-uppercase text-muted mb-3">Comments</h6>
+
+    <% if @post.comments.any? %>
+      <% @post.comments.each do |comment| %>
+        <div class="card mb-2 shadow-sm">
+          <div class="card-body">
+            <p class="mb-1"><%= comment.body %></p>
+            <small class="text-muted">
+              Posted by <%= comment.creator.username %> • <%= display_datetime(comment.created_at) %>
+            </small>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted">No comments yet. Be the first to comment!</p>
+    <% end %>
+  </section>
+
+</article>

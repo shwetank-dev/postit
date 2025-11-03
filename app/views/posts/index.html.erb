@@ -1,0 +1,8 @@
+<%= render "shared/page_title", title: "All Posts" %>
+<main>
+  <ul class="list-unstyled">
+    <% @posts.each do |post| %>
+      <%= render 'post', post: post %>
+    <% end %>
+  </ul>
+</main>

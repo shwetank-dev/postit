@@ -1,0 +1,11 @@
+<%= form_with model: @category, local: true, html: { class: "container py-4" } do |form| %>
+  <%= render 'shared/form_error', form: form %>
+  <div class="mb-3">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Enter category name" %>
+  </div>
+  <% submit_label = local_assigns.fetch(:button_label, @category.persisted? ? "Update Category" : "Create Category") %>
+  <div>
+    <%= form.submit submit_label, class: "btn btn-primary" %>
+  </div>
+<% end %>

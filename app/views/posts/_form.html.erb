@@ -1,0 +1,29 @@
+<%= form_with model: @post, local: true, html: { class: "container py-4" } do |form| %>
+  <%= render "shared/form_error", form: form %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :url, class: "form-label" %>
+    <%= form.text_field :url, class: "form-control" %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 4 %>
+  </div>
+  <div class="mb-3">
+    <%= form.label :category_ids, "Select Categories", class: "form-label" %>
+    <div>
+      <% Category.all.each do |category| %>
+        <div class="form-check form-check-inline">
+          <%= check_box_tag "post[category_ids][]", category.id, @post.category_ids.include?(category.id), class: "form-check-input" %>
+          <%= label_tag "category_#{category.id}", category.name, class: "form-check-label" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div>
+    <%= form.submit(button_label || (@post.persisted? ? "Update Post" : "Create Post"), class: "btn btn-primary") %>
+  </div>
+<% end %>
