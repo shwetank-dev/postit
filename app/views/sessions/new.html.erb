@@ -1,0 +1,16 @@
+<%= render 'shared/page_title', title: "Login" %>
+<div class="container py-4">
+  <%= form_with url: login_path do |form| %>
+    <div class="mb-3">
+      <%= form.label :username, "Username", class: "form-label" %>
+      <%= form.text_field :username, value: params[:username] || '', class: "form-control", placeholder: "Enter Username" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :password, "Password", class: "form-label" %>
+      <%= form.password_field :password, value: params[:password] || '', class: "form-control" %>
+    </div>
+    <div>
+      <%= form.submit "Log in", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

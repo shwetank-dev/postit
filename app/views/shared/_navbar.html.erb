@@ -1,23 +1,70 @@
-<nav class="navbar bg-light">
+<nav class="navbar navbar-expand-lg bg-light shadow-sm">
   <div class="container-fluid">
-    <div class="nav gap-3 align-items-center">
-      <%= link_to "Postit", root_path, class: "navbar-brand fw-bolder" %>
-      <%= link_to "New Post", new_post_path, class: "btn btn-primary" %>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-          Categories
-        </button>
-        <ul class="dropdown-menu">
-          <% Category.all.each do |category| %>
-            <li>
-              <%= link_to category.name, category_path(category), class: "dropdown-item" %>
-            </li>
-          <% end %>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-            <%= link_to "Add Category", new_category_path, class: "dropdown-item" %>
+    <!-- Brand -->
+    <%= link_to "Postit", root_path, class: "navbar-brand fw-bold text-primary" %>
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navbar content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Left group -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center gap-2">
+        <% if logged_in? %>
+          <li class="nav-item">
+            <%= link_to "New Post", new_post_path, class: "btn btn-primary btn-sm" %>
           </li>
-        </ul>
+        <% end %>
+        <!-- Categories Dropdown -->
+        <li class="nav-item dropdown">
+          <button class="btn btn-secondary btn-sm dropdown-toggle" id="categoriesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            <% Category.all.each do |category| %>
+              <li><%= link_to category.name, category_path(category), class: "dropdown-item" %></li>
+            <% end %>
+            <% if logged_in? %>
+              <li><hr class="dropdown-divider"></li>
+              <li><%= link_to "Add Category", new_category_path, class: "dropdown-item" %></li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+      <!-- Right group -->
+      <div class="d-flex align-items-center gap-2">
+        <% if logged_in? %>
+          <!-- User dropdown -->
+          <div class="dropdown">
+            <button class="btn btn-outline-dark btn-sm dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i> <%= current_user.username %>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end p-2 shadow-sm" aria-labelledby="userDropdown">
+              <li>
+                <%= link_to user_path(current_user), class: "dropdown-item d-flex align-items-center gap-2 py-2" do %>
+                  <i class="bi bi-person-fill text-primary"></i>
+                  <span>View Profile</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to edit_user_path(current_user), class: "dropdown-item d-flex align-items-center gap-2 py-2" do %>
+                  <i class="bi bi-pencil-square text-success"></i>
+                  <span>Edit Profile</span>
+                <% end %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= link_to logout_path, class: "dropdown-item d-flex align-items-center gap-2 py-2 text-danger" do %>
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>Logout</span>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        <% else %>
+          <%= link_to "Login", login_path, class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Register", register_path, class: "btn btn-primary btn-sm" %>
+        <% end %>
       </div>
     </div>
   </div>

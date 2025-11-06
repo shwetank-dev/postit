@@ -2,7 +2,7 @@
 <main>
   <ul class="list-unstyled">
     <% @posts.each do |post| %>
-      <%= render 'post', post: post %>
+      <%= render 'post', post: post, show_creator: true %>
     <% end %>
   </ul>
 </main>

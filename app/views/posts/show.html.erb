@@ -11,7 +11,9 @@
   </header>
   <!-- Actions -->
   <div class="mb-4 d-flex gap-2">
-    <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline-primary btn-sm" %>
+    <% if logged_in? %>
+      <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline-primary btn-sm" %>
+    <% end %>
     <%= link_to "Back to Posts", posts_path, class: "btn btn-link btn-sm" %>
   </div>
   <!-- Content -->
@@ -23,6 +25,7 @@
   </section>
 
   <!-- Add Comment Form -->
+<% if logged_in? %>
   <section class="card border-0 shadow-sm mt-4">
     <div class="card-body">
       <h6 class="text-uppercase text-muted mb-3">Add a Comment</h6>
@@ -41,6 +44,7 @@
       <% end %>
     </div>
   </section>
+<% end %>
 
   <!-- Comments List -->
   <section class="mt-4">
@@ -48,14 +52,7 @@
 
     <% if @post.comments.any? %>
       <% @post.comments.each do |comment| %>
-        <div class="card mb-2 shadow-sm">
-          <div class="card-body">
-            <p class="mb-1"><%= comment.body %></p>
-            <small class="text-muted">
-              Posted by <%= comment.creator.username %> • <%= display_datetime(comment.created_at) %>
-            </small>
-          </div>
-        </div>
+        <%= render 'comments/comment', comment: comment %>
       <% end %>
     <% else %>
       <p class="text-muted">No comments yet. Be the first to comment!</p>

@@ -31,11 +31,18 @@
         <%= render "shared/navbar" %>
         <main>
           <% if flash.any? %>
-            <div class="alert alert-info text-center my-3" role="alert">
-              <% flash.each do |_, message| %>
-                <div><%= message %></div>
-              <% end %>
-            </div>
+            <% flash.each do |key, message| %>
+              <% alert_class =
+                case key.to_sym
+                when :notice then "alert-success"
+                when :alert  then "alert-warning"
+                when :error  then "alert-danger"
+                else "alert-info"
+              end%>
+              <div class="alert <%= alert_class %> text-center my-3" role="alert">
+                <%= message %>
+              </div>
+            <% end %>
           <% end %>
           <%= yield %>
         </main>

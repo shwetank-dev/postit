@@ -1,0 +1,16 @@
+<div class="container py-4">
+  <%= form_with model: @user do |form| %>
+    <%= render "shared/form_error", form: form %>
+    <div class="mb-3">
+      <%= form.label :username, class: "form-label" %>
+      <%= form.text_field :username, class: "form-control", placeholder: "Enter Username" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :password, class: "form-label" %>
+      <%= form.password_field :password, class: "form-control" %>
+    </div>
+    <div>
+      <%= form.submit(@user.new_record? ? "Register" : "Update Profile", class: "btn btn-primary") %>
+    </div>
+  <% end %>
+</div>

@@ -9,3 +9,4 @@ document.addEventListener('turbo:load', () => {
     .querySelectorAll('[data-bs-toggle="dropdown"]')
     .forEach((el) => new bootstrap.Dropdown(el));
 });
+import '@hotwired/turbo-rails';
