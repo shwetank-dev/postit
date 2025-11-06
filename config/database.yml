@@ -7,7 +7,11 @@ default: &default
 
 development:
   <<: *default
-  database: myapp_development
+  host: 127.0.0.1
+  port: 5432
+  database: postit_development
+  username: postgres
+  password: postgres
 
 test:
   <<: *default
