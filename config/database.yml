@@ -7,26 +7,14 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV.fetch("DEV_DB", "myapp_development") %>
+  database: myapp_development
 
 test:
   <<: *default
-  database: <%= ENV.fetch("TEST_DB", "myapp_test") %>
+  database: myapp_test
 
-# ---- Production on Render / Neon (single DATABASE_URL) ----
-# IMPORTANT: do not set host/username/password here; let DATABASE_URL provide everything.
 production:
-  # If you don’t use multiple DBs, either of these forms is fine.
-  # Form A (simple):
+  <<: *default
   url: <%= ENV["DATABASE_URL"] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-  prepared_statements: false # PgBouncer friendly
-  advisory_locks: false # avoid advisory locks over pooled connections
-
-
-  # Form B (multiple databases style) — uncomment if you later add replicas/etc.
-  # primary:
-  #   url: <%= ENV["DATABASE_URL"] %>
-  #   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-  #   prepared_statements: false
-  #   advisory_locks: false
+  prepared_statements: false # Better with Neon PgBouncer
+  advisory_locks: false # Avoids locks that fail on pooled connections
