@@ -4,7 +4,10 @@ module ApplicationHelper
   end
 
   def display_datetime(dt)
-    # Convert dt to New York time and format
-    dt.in_time_zone("America/New_York").strftime("%m/%d/%Y %l:%M%P %Z")
+    if logged_in? and !current_user.time_zone.blank?
+      dt = dt.in_time_zone(current_user.time_zone)
+    end
+
+    dt.strftime("%m/%d/%Y %l:%M%P %Z")
   end
 end

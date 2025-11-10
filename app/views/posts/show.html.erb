@@ -6,12 +6,12 @@
     </div>
     <%= render "shared/page_title", title: @post.title %>
     <p class="text-muted small mb-0">
-     <%= link_to(@post.title, fix_url(@post.url)) %> • Posted by <%= @post.creator.username %> • <%= display_datetime(@post.created_at) %>
+      <%= link_to(@post.title, fix_url(@post.url)) %> • Posted by <%= @post.creator.username %> • <%= display_datetime(@post.created_at) %>
     </p>
   </header>
   <!-- Actions -->
   <div class="mb-4 d-flex gap-2">
-    <% if logged_in? %>
+    <% if logged_in? and  %>
       <%= link_to "Edit Post", edit_post_path(@post), class: "btn btn-outline-primary btn-sm" %>
     <% end %>
     <%= link_to "Back to Posts", posts_path, class: "btn btn-link btn-sm" %>
@@ -23,33 +23,27 @@
       <p class="mb-0 text-secondary"><%= @post.description %></p>
     </div>
   </section>
-
   <!-- Add Comment Form -->
-<% if logged_in? %>
-  <section class="card border-0 shadow-sm mt-4">
-    <div class="card-body">
-      <h6 class="text-uppercase text-muted mb-3">Add a Comment</h6>
-
-      <%= form_with(model: [@post, @comment], class: "needs-validation", local: true) do |f| %>
-        <%= render "shared/form_error", form: f %>
-
-        <div class="mb-3">
-          <%= f.label :body, "Leave a Comment", class: "form-label" %>
-          <%= f.text_area :body, rows: 4, class: "form-control", placeholder: "Write your comment here..." %>
-        </div>
-
-        <div class="text-end">
-          <%= f.submit "Create Comment", class: "btn btn-primary px-4" %>
-        </div>
-      <% end %>
-    </div>
-  </section>
-<% end %>
-
+  <% if logged_in? %>
+    <section class="card border-0 shadow-sm mt-4">
+      <div class="card-body">
+        <h6 class="text-uppercase text-muted mb-3">Add a Comment</h6>
+        <%= form_with(model: [@post, @comment], class: "needs-validation", local: true) do |f| %>
+          <%= render "shared/form_error", form: f %>
+          <div class="mb-3">
+            <%= f.label :body, "Leave a Comment", class: "form-label" %>
+            <%= f.text_area :body, rows: 4, class: "form-control", placeholder: "Write your comment here..." %>
+          </div>
+          <div class="text-end">
+            <%= f.submit "Create Comment", class: "btn btn-primary px-4" %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
   <!-- Comments List -->
   <section class="mt-4">
     <h6 class="text-uppercase text-muted mb-3">Comments</h6>
-
     <% if @post.comments.any? %>
       <% @post.comments.each do |comment| %>
         <%= render 'comments/comment', comment: comment %>
@@ -58,5 +52,4 @@
       <p class="text-muted">No comments yet. Be the first to comment!</p>
     <% end %>
   </section>
-
 </article>

@@ -9,6 +9,10 @@
       <%= form.label :password, class: "form-label" %>
       <%= form.password_field :password, class: "form-control" %>
     </div>
+    <div class="mb-3">
+      <%= form.label :time_zone, class: "form-label" %>
+      <%= form.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, default: Time.zone.name, class: "form-control" %>
+    </div>
     <div>
       <%= form.submit(@user.new_record? ? "Register" : "Update Profile", class: "btn btn-primary") %>
     </div>
